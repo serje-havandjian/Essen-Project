@@ -6,7 +6,7 @@ import Login from './Login';
 
 import React, {useState, useEffect} from "react"
 import { Route, Switch } from "react-router-dom";
-import { Card, Image } from 'semantic-ui-react'
+import { Card, Image, Form, Button } from 'semantic-ui-react'
 import { useHistory } from "react-router-dom";
 
 
@@ -37,12 +37,12 @@ function App() {
   console.log(user, "USER HERE")
 
   useEffect(() => {
-    fetch("http://localhost:3001/products")
+    fetch("/products")
     .then(result => result.json())
     .then(result => setProducts(result))
   }, [])
 
-  console.log(products)
+  console.log(products, "PRODUCTS")
 
   const displayProducts = products.map((product) => {
     return(
@@ -50,15 +50,15 @@ function App() {
         <Card className='card'
         color='teal'
           href = {product.link}
-          image = {product.image}
-          header = {product.title}
+          // image = {product.image}
+          header = {product.name}
           meta = {product.manufacturer}
           description ={product.description}
           />
       </div>
     )
-
   })
+
 
   function handleLogoutClick() {
     fetch("/logout", { method: "DELETE" }).then((r) => {
@@ -67,6 +67,10 @@ function App() {
         history.push("/login")
       }
     });
+  }
+
+  function createNewProduct(){
+
   }
 
 
@@ -112,6 +116,20 @@ function App() {
             </div>
             <div className='cardDiv'>
             {displayProducts}
+            </div>
+            <div>
+              <Card fluid color="orange">
+                <h1> Create A New Product</h1>
+                    <Form succes onSubmit={createNewProduct}>
+                        <Form.Input label="Name" placeholder="Enter Case Name Here"  />
+                        <Form.Input label="Opposing Counsel" placeholder="Enter Opposing Counsel Here" />
+                        
+                        <Form.Input label="Date Case Filed (YYYY-MM-DD)" placeholder="Enter Date Case Filed Here"  />
+                        <Form.Input label="Date Complaint Served (YYYY-MM-DD)" placeholder="Enter Date Complaint Served Here"  />
+                        
+                        <Button color="blue">Submit</Button>
+                    </Form>
+                </Card>
             </div>
           </Route>
         </Switch>
