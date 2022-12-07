@@ -7,6 +7,7 @@ import Login from './Login';
 import React, {useState, useEffect} from "react"
 import { Route, Switch } from "react-router-dom";
 import { Card, Image } from 'semantic-ui-react'
+import { useHistory } from "react-router-dom";
 
 
 function App() {
@@ -15,6 +16,8 @@ function App() {
   const [products, setProducts] = useState([])
 
   const [count, setCount] = useState(0);
+
+  const history = useHistory()
 
   useEffect(() => {
     fetch("/hello")
@@ -57,6 +60,14 @@ function App() {
 
   })
 
+  function handleLogoutClick() {
+    fetch("/logout", { method: "DELETE" }).then((r) => {
+      if (r.ok) {
+        setUser(null);
+        history.push("/login")
+      }
+    });
+  }
 
 
 
@@ -94,6 +105,9 @@ function App() {
                 <p>
                   Welcome To Essen ADMIN PAGE!
                 </p>
+                <a className="menu-item" onClick={handleLogoutClick} href="/login">
+                Logout
+                </a>
               </header>
             </div>
             <div className='cardDiv'>
