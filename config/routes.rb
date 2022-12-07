@@ -17,7 +17,7 @@ Rails.application.routes.draw do
   delete "/logout", to: "sessions#destroy"
 
   # Route for signing up/creating new user
-  post "/signup", to: "users#create"
+  post "/admin", to: "users#create"
   get "/me", to: "users#show"
 
 end
